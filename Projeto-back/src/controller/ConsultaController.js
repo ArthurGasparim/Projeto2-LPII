@@ -23,6 +23,22 @@ class ConsultaController{
     
         }
 
+        async atualizar(req,resp){
+            //resgatar os dados da consulta do mongo
+            //buscar uma consulta pelo id
+            //vamos passar no body da req as solicitações de açteração
+            //o proprio mongo identifica se a collection foi atualizada
+            //a propriedade new:true significa que sempre vai me retornar os dados da consulta atualizada 
+            //devolvendo para o servidor uma resposta com a consultaatualizada
+            await ConsultaModel.findByIdAndUpdate({"_id":req.params.id},req.body,{new : true})
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+        } 
+
 
 }
 

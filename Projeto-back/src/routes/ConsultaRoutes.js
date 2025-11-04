@@ -14,4 +14,6 @@ const ConsultaValida = require("../middleware/ConsultaValida")
 //post para receber
 rota.post("/",ConsultaValida,ConsultaController.criar)
 
+rota.put('/:id',ConsultaValida,ConsultaController.atualizar)
+
 module.exports = rota
