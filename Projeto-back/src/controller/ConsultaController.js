@@ -37,7 +37,30 @@ class ConsultaController{
             .catch(erro =>{
                 return resp.status(500).json(erro)
             })
-        } 
+        }
+        
+        async listar(req,resp){
+            await ConsultaModel.find({"tipo":{"$in":req.body.tipo}})
+            .sort("data")
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+           
+        }
+
+         async consulta(req,resp){
+            await ConsultaModel.findById(req.params.id)
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+           
+        }
 
 
 }

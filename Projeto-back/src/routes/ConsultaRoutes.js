@@ -16,4 +16,8 @@ rota.post("/",ConsultaValida,ConsultaController.criar)
 
 rota.put('/:id',ConsultaValida,ConsultaController.atualizar)
 
+rota.get("/listar/todas",ConsultaController.listar)
+
+rota.get("/listar/:id",ConsultaController.consulta)
+
 module.exports = rota
