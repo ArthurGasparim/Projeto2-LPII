@@ -2,6 +2,7 @@
 const express = require('express')
 const rota = express.Router()
 
+
 //importar o módulo interno do controller
 const ConsultaController = require("../controller/ConsultaController")
 
@@ -15,9 +16,16 @@ const ConsultaValida = require("../middleware/ConsultaValida")
 rota.post("/",ConsultaValida,ConsultaController.criar)
 
 rota.put('/:id',ConsultaValida,ConsultaController.atualizar)
+rota.put('/:id/:termino',ConsultaController.concluida)
+
+rota.get("/filtrar/hoje",ConsultaController.consultasHoje)
 
 rota.get("/listar/todas",ConsultaController.listar)
 
 rota.get("/listar/:id",ConsultaController.consulta)
+
+rota.delete('/deletar/:id',ConsultaController.deletar)
+
+rota.get("/filtrar/atrasadas",ConsultaController.atrasadas)
 
 module.exports = rota

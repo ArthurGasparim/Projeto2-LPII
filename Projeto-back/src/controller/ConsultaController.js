@@ -1,5 +1,9 @@
 const express = require("express")
 const ConsultaModel = require("../model/ConsultarModel")
+const hoje = new Date()
+
+const { startOfDay, endOfDay} = require("date-fns")
+
 
 //criar uma classe para que toda a regra seja implementada dentro dela
 //quando eu quiser chamar uma função sera necessário fazer a chamada do nome da classe.nomeDaFuncao
@@ -38,9 +42,45 @@ class ConsultaController{
                 return resp.status(500).json(erro)
             })
         }
+
+        async concluida(req,resp){
+
+            await ConsultaModel.findByIdAndUpdate({"_id":req.params.id},{'termino' : req.params.termino},{new:true})
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+        }
         
         async listar(req,resp){
             await ConsultaModel.find({"tipo":{"$in":req.body.tipo}})
+            .sort("data")
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+           
+        }
+
+        async atrasadas(req,resp){
+            await ConsultaModel.find({"data":{"$lt":hoje}},
+                {"termino" :false})
+            .sort("data")
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
+           
+        }
+
+        async consultasHoje(req,resp){
+            await ConsultaModel.find({"data":{"$lt":endOfDay, "gte":startOfDay}})
             .sort("data")
             .then(resposta =>{
                 return resp.status(200).json(resposta)
@@ -60,6 +100,16 @@ class ConsultaController{
                 return resp.status(500).json(erro)
             })
            
+        }
+
+        async deletar(req,resp){
+            await ConsultaModel.deleteOne({"_id":req.params.id})
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro =>{
+                return resp.status(500).json(erro)
+            })
         }
 
 
