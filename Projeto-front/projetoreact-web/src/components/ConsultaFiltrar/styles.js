@@ -2,7 +2,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 300px;
     heigth: 100px;
-    background: ${prop=>prop.ativo ? '#22B14c' : ' #C0C0C0'};
+    background: ${prop=>prop.ativo == "true" ? '#22B14c' : ' #C0C0C0'};
     display: flex;
     padding: 10px;
     cursor:pointer;
