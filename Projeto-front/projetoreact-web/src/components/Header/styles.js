@@ -24,6 +24,13 @@ export const Dir = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    button{
+        background:none;
+        border:none;
+        cursor:pointer;
+    }
+
     a{
         color: #FFF;
         font-weight:bold;

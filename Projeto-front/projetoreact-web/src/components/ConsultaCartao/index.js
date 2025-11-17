@@ -1,17 +1,21 @@
-import React from "react";
+import React, {useMemo} from "react";
 import * as Styl from './styles'
-import iconePadrao from '../../assets/padrao.png'
+//import iconePadrao from '../../assets/padrao.png'
+import {format} from 'date-fns'
+import tipoIcones from "../../utils/tipoIcones";
 
-function ConsultaCartao() {
+function ConsultaCartao({tipo,paciente,descricao, data}) {
+  const diaMesAno = useMemo(()=> format(new Date(data),'dd/MM/yyyy'))
+  const horaMin = useMemo(()=> format(new Date(data),'HH:mm'))
   return (
     <Styl.Container>
         <Styl.TopoCartao>
-            <img src={iconePadrao} alt="Icone consulta padrao"/>
-            <h1>Nome paciente</h1>
+            <img src={tipoIcones[tipo]} alt="Icone consulta padrao"/>
+            <h1>{paciente}</h1>
         </Styl.TopoCartao>
         <Styl.BotaoCartao>
-          <strong>11/11/2025</strong>
-          <span>  12:00</span>
+          <strong>{diaMesAno}</strong>
+          <span>  {horaMin}</span>
         </Styl.BotaoCartao>
     </Styl.Container>
   );

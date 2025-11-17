@@ -18,12 +18,24 @@ function Home() {
   //estado vai guardar uma coleção de informações das consultas
   const [consulta, atualizaConsulta] = useState([])
 
+  const [atrasadas, atualizaAtrasadas] = useState()
+  async function verificaAtrazadas() {
+    await api.get("/consulta/atrasadas")
+    .then(resp =>{
+      atualizaAtrasadas(resp.data.length)
+    })
+  }
+
   async function carregarConsulta() {
-    const url = '/consulta/filtrar/'+filtroAtivo
+    const url = '/consulta/'+filtroAtivo
     await api.get(url)
     .then(response =>{
       atualizaConsulta(response.data)
     })
+  }
+
+  function notificacao(){
+    atualizaFiltroAtivo('atrasadas')
   }
 
   //todas as vezes que a tela atualizar eu quero que o front chame a função de carregar as informações na tela (carregaConsulta)
@@ -31,34 +43,35 @@ function Home() {
   //essa função é carregada todas as vezes que a tela for carregada
   useEffect(()=>{
     carregarConsulta()
+    verificaAtrazadas()
   },[filtroAtivo])
   
   return (
 
     <Style.Container>
-        <Header/>
+        <Header atrasadas = {atrasadas} notificacaoClick = {notificacao}/>
         <Style.AreaFiltro>
-          <button type="button" onClick={() => atualizaFiltroAtivo("todos")}>
-               <FiltrarConsulta titulo="Todos" ativo = {filtroAtivo === "todas"}/>
+          <button type="button" onClick={() => atualizaFiltroAtivo("todas")}>
+               <FiltrarConsulta titulo="Todos" ativo = {filtroAtivo == "todas"}/>
           </button>
          
           <button type="button" onClick={() => atualizaFiltroAtivo("hoje")}>
-            <FiltrarConsulta titulo="Hoje" ativo = {filtroAtivo === "hoje"}/>
+            <FiltrarConsulta titulo="Hoje" ativo = {filtroAtivo == "hoje"}/>
           </button>
           
           
           <button type="button" onClick={() => atualizaFiltroAtivo("semana")}>
-            <FiltrarConsulta titulo="Semana"ativo = {filtroAtivo === "semana"}/>
+            <FiltrarConsulta titulo="Semana"ativo = {filtroAtivo == "semana"}/>
           </button>
           
           
           <button type="button" onClick={() => atualizaFiltroAtivo("mes")}>
-            <FiltrarConsulta titulo="Mês" ativo = {filtroAtivo === "mes"}/>
+            <FiltrarConsulta titulo="Mês" ativo = {filtroAtivo == "mes"}/>
           </button>
           
           
           <button type="button" onClick={() => atualizaFiltroAtivo("ano")}>
-            <FiltrarConsulta titulo="Ano" ativo = {filtroAtivo === "ano"}/>
+            <FiltrarConsulta titulo="Ano" ativo = {filtroAtivo == "ano"}/>
             </button>
           
         </Style.AreaFiltro>
@@ -68,11 +81,11 @@ function Home() {
         </Style.Titulo>
 
         <Style.Conteudo>
-          <ConsultaCartao></ConsultaCartao>
-          <ConsultaCartao></ConsultaCartao>
-          <ConsultaCartao></ConsultaCartao>
-          <ConsultaCartao></ConsultaCartao>
-          <ConsultaCartao></ConsultaCartao>
+          
+          {consulta.map(c =>(
+            <ConsultaCartao tipo={c.tipo} paciente={c.paciente} descricao={c.descricao} data={c.data}/>
+          ))
+           }
         
         </Style.Conteudo>
         <Footer/>

@@ -16,16 +16,16 @@ const ConsultaValida = require("../middleware/ConsultaValida")
 rota.post("/",ConsultaValida,ConsultaController.criar)
 
 rota.put('/:id',ConsultaValida,ConsultaController.atualizar)
-rota.put('/:id/:termino',ConsultaController.concluida)
+rota.put('/concluida/:id/:termino',ConsultaController.concluida)
 
-rota.get("/filtrar/hoje",ConsultaController.consultasHoje)
+rota.get("/hoje",ConsultaController.consultasHoje)
 
-rota.get("/listar/todas",ConsultaController.listar)
+rota.get("/todas",ConsultaController.listar)
 
 rota.get("/listar/:id",ConsultaController.consulta)
 
 rota.delete('/deletar/:id',ConsultaController.deletar)
 
-rota.get("/filtrar/atrasadas",ConsultaController.atrasadas)
+rota.get("/atrasadas",ConsultaController.atrasadas)
 
 module.exports = rota

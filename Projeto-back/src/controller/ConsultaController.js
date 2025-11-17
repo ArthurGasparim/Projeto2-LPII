@@ -55,7 +55,7 @@ class ConsultaController{
         }
         
         async listar(req,resp){
-            await ConsultaModel.find({"tipo":{"$in":req.body.tipo}})
+            await ConsultaModel.find()
             .sort("data")
             .then(resposta =>{
                 return resp.status(200).json(resposta)
@@ -80,12 +80,15 @@ class ConsultaController{
         }
 
         async consultasHoje(req,resp){
-            await ConsultaModel.find({"data":{"$lt":endOfDay, "gte":startOfDay}})
-            .sort("data")
+             await ConsultaModel.find(
+            //operador gte --> maior igual que
+            //operador lte --> menor igual que
+            {'data': {'$gte':startOfDay(hoje), '$lte': endOfDay(hoje)}})
+            .sort('data')
             .then(resposta =>{
                 return resp.status(200).json(resposta)
             })
-            .catch(erro =>{
+            .catch(erro=>{
                 return resp.status(500).json(erro)
             })
            
