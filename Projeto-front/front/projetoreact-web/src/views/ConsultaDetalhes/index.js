@@ -21,8 +21,9 @@ function ConsultaDetalhes() {
 
     const {idC} = useParams()
     async function carregarConsulta() {
-        await api.get(`/consulta/buscar/${idC}`)
-        .then(resp =>{
+        if(idC){
+            await api.get(`/consulta/buscar/${idC}`)
+            .then(resp =>{
             atualizarTipo(resp.data.tipo)
             atualizaPaciente(resp.data.paciente)
             atualizaDescricao(resp.data.descricao)
@@ -30,6 +31,8 @@ function ConsultaDetalhes() {
             atualizaDia(format(new Date(resp.data.data), 'yyyy-MM-dd'))
             atualizaHora(format(new Date(resp.data.data), 'HH:mm'))
         })
+        }
+        
     }
 
     async function verificaAtrasadas() {
@@ -110,7 +113,7 @@ function ConsultaDetalhes() {
                         onChange={e=>atualizaHora(e.target.value)} value={hora}/>
                     </Styl.Input>
 
-                    <Styl.Opcao>
+                    <Styl.Opcao botao={idC}>
                         <div>
                             <input type='checkbox'
                             onChange={e=>atualizaConcluida(e.target.value)} value={!concluida}/>
@@ -120,7 +123,7 @@ function ConsultaDetalhes() {
                     </Styl.Opcao>
 
                     <Styl.Salvar>
-                        <button type='button' onClick={salvar}>SALVAR</button>
+                        <button type='button' onClick={salvar}>{(!idC)?"SALVAR":"ATUALIZAR"}</button>
                     </Styl.Salvar>
 
                 </Styl.Formulario>

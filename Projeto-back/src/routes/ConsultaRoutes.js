@@ -11,7 +11,7 @@ rota.put('/:id', ConsultaValida, ConsultaController.atualizar)
 
 rota.put('/concluida/:id/:termino', ConsultaController.concluida)
 
-rota.get('/listar', ConsultaController.listar)
+rota.get('/todas', ConsultaController.listar)
 
 rota.get('/buscar/:id', ConsultaController.buscar)
 
@@ -20,6 +20,7 @@ rota.delete('/deletar/:id', ConsultaController.deletar)
 rota.get('/atrasadas',ConsultaController.atrasadas)
 
 rota.get('/hoje', ConsultaController.consultaHoje)
+rota.get('/mes', ConsultaController.consultaMes)
 
 rota.get('/semana', ConsultaController.consultaSemana)
 module.exports = rota

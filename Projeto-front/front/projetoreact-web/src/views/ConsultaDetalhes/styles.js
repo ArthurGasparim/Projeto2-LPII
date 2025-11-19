@@ -73,6 +73,7 @@ export const Opcao = styled.div `
     display: flex;
     justify-content: space-between;
     button{
+        visibility: ${prop=> (!prop.botao) ? 'hidden' : ''};
         font-weight: bold;
         color: #22B14C;
         border: none;

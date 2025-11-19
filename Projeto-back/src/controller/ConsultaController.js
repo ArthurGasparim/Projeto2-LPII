@@ -45,14 +45,26 @@ class ConsultaController{
             })
     }
 
+    static async consultaMes(req,resp){
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        await ConsultaModel.find({"data":{"$gte":startOfDay(firstDay), "$lte":endOfDay(lastDay)}})
+            .sort('data')
+            .then(resposta =>{
+                return resp.status(200).json(resposta)
+            })
+            .catch(erro=>{
+                return resp.status(500).json(erro)
+            })
+    }
+
     static async listar(req, resp){
         //listar consultas
         //por tipo
         //operador in para procurar entre os dados existentes quais 
         // consultas são do tipo passado por parametro
-        await ConsultaModel.find(
-            {'tipo': {'$in':req.body.tipo}}
-            )
+        await ConsultaModel.find()
             //organizar as consultas por data crescente
             .sort('data')
             .then(resposta =>{
