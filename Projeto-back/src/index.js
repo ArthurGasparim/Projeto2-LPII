@@ -1,19 +1,16 @@
 const express = require('express')
-const cors = require('cors')    
 const api = express()
+const cors = require('cors')
+const ConsultaRoutes = require('./routes/ConsultaRoutes')
 api.use(cors())
-//para a api saber que estamos recebendo e devolvendo informações JSON
+//api saber que estamos recebendo info e devolvendo info em json
 api.use(express.json())
 
+//importar a rota consulta
+api.use('/consulta', ConsultaRoutes)
 
 
-//importar o routes
-const ConsultaRoutes = require("./routes/ConsultaRoutes")
-api.use('/consulta',ConsultaRoutes)
-api.get("/teste",(req,res)=>{
-    res.send("Testando API")
+api.listen(5000, ()=>{
+    console.log('API online')
 })
 
-api.listen(5000,()=>{
-    console.log("API online")
-})

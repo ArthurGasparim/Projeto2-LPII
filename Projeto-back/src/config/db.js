@@ -1,14 +1,12 @@
-const mongoose = require("mongoose")
+//importar o mongoose
+const mongoose = require('mongoose')
 
-//definir a url de conexão para o mong
+//definir a url para conexão com o mongo
+const url = 'mongodb://localhost:27017/Projeto2'
 
-const url= "mongodb://localhost:27017/Projeto2"
+//conexão com o mongo
 
-//preciso passar a url e o objeto par acnectar ao mongoose
-// objeto = true para ter compatibilidade com outras versões
-
-mongoose.connect(url,{useNewUrlParser: true})
+mongoose.connect(url, {useNewUrlParser: true})
 
 //exportar
-
 module.exports = mongoose

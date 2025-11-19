@@ -1,31 +1,25 @@
-//importar o express
 const express = require('express')
 const rota = express.Router()
+const ConsultaController = require('../controller/ConsultaController')
+const ConsultaValida = require('../middlewares/ConsultaValida')
 
+//toda vez que chegar uma req do tipo post em /consulta
+//vou chamar o controller para receber o post
+rota.post('/', ConsultaValida, ConsultaController.criar)
 
-//importar o módulo interno do controller
-const ConsultaController = require("../controller/ConsultaController")
+rota.put('/:id', ConsultaValida, ConsultaController.atualizar)
 
-//importar o arquivo de validação
-const ConsultaValida = require("../middleware/ConsultaValida")
+rota.put('/concluida/:id/:termino', ConsultaController.concluida)
 
+rota.get('/listar', ConsultaController.listar)
 
-//todas as vezes que chegar uma req do tipo post em /consulta
-//vou chamar o ConsultaController
-//post para receber
-rota.post("/",ConsultaValida,ConsultaController.criar)
+rota.get('/buscar/:id', ConsultaController.buscar)
 
-rota.put('/:id',ConsultaValida,ConsultaController.atualizar)
-rota.put('/concluida/:id/:termino',ConsultaController.concluida)
+rota.delete('/deletar/:id', ConsultaController.deletar)
 
-rota.get("/hoje",ConsultaController.consultasHoje)
+rota.get('/atrasadas',ConsultaController.atrasadas)
 
-rota.get("/todas",ConsultaController.listar)
+rota.get('/hoje', ConsultaController.consultaHoje)
 
-rota.get("/listar/:id",ConsultaController.consulta)
-
-rota.delete('/deletar/:id',ConsultaController.deletar)
-
-rota.get("/atrasadas",ConsultaController.atrasadas)
-
+rota.get('/semana', ConsultaController.consultaSemana)
 module.exports = rota
