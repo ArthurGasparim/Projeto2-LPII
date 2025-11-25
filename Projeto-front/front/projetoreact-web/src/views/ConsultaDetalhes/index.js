@@ -41,6 +41,15 @@ function ConsultaDetalhes() {
         atualizaAtrasadas(resp.data.length)
     )
     }
+
+    async function excluir() {
+        await api.delete('/consulta/deletar/'+idC)
+        .then(()=>{
+            alert("Consulta deletada com sucesso")
+            window.location.href = "http://localhost:3000/"
+        })
+    }
+
     async function salvar(){
         if(idC){
             await api.put('/consulta/'+idC,{
@@ -119,7 +128,7 @@ function ConsultaDetalhes() {
                             onChange={e=>atualizaConcluida(e.target.value)} value={!concluida}/>
                             <span>CONCLUÍDA</span>
                         </div>
-                        <button type='button'>EXCLUIR</button>
+                        <button type='button' onClick={excluir}>EXCLUIR</button>
                     </Styl.Opcao>
 
                     <Styl.Salvar>
